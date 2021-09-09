@@ -1,0 +1,9 @@
+*.bak
+
+/.ignore
+/.gcloudignore
+/.git
+/.gitignore
+/test.js
+/Makefile
+/node_modules

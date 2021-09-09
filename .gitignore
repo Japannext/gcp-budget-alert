@@ -1,0 +1,4 @@
+.envrc
+.ignore
+node_modules
+private-key.json

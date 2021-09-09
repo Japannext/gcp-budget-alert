@@ -1,0 +1,12 @@
+{
+  "name": "budget-alert",
+  "description": "Received updates from pub/sub budget notification and alerts on Chat",
+  "license": "Proprietary",
+  "private": true,
+  "version": "0.0.1",
+  "dependencies": {
+    "@google-cloud/datastore": "latest",
+    "@google-cloud/pubsub": "latest",
+    "node-fetch": "latest"
+  }
+}
