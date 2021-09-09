@@ -1,3 +1,8 @@
+//
+// Copyright: Japannext Co., Ltd. <https://www.japannext.co.jp/>
+// SPDX-License-Identifier: Apache-2.0
+//
+
 exports.budgetAlert = (event, _context) => {
 
     const eventData = JSON.parse(Buffer.from(event.data, 'base64').toString());
