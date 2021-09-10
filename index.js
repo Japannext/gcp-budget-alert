@@ -116,16 +116,6 @@ exports.budgetAlert = (event, _context) => {
                         case 'F':
                         case 'A':
                             post.text = "*Attention <users/all>!*";
-                            // widgets.push({
-                            //     textParagraph: {
-                            //         text: ""
-                            //             + `The <b><a href="https://console.cloud.google.com/billing/${event.attributes.billingAccountId}/budgets/${event.attributes.budgetId}/">${eventData.budgetDisplayName}</a></b> Google Cloud Platform budget`
-                            //             + ` ${(alertType == 'F') ? "is expected to exceed" : "exceeded"} <b>${threshold * 100}%</b>`
-                            //             + ` of the budgeted <b><font color="#CC0000">${parseFloat(eventData.budgetAmount).toLocaleString()} ${eventData.currencyCode}</font></b>.\n`
-                            //             + `The billing account is <a href="https://console.cloud.google.com/billing/${event.attributes.billingAccountId}">${event.attributes.billingAccountId}</a>.`
-                            //             + ``
-                            //     }
-                            // });
 
                             widgets.push({
                                 keyValue: {
