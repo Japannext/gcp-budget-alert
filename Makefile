@@ -2,6 +2,10 @@ VERSION = $(shell git describe --always)
 DEPLOYMENT_TIME = $(shell date -Is)
 GOOGLE_APPLICATION_CREDENTIALS = private-key.json
 
+ifeq ($(TRIGGER_TOPIC),)
+TRIGGER_TOPIC := budget-alerts
+endif
+
 dev: sanity
 	gcloud functions deploy budget-alerts-$@ \
 		--project $(GCP_PROJECT) \
@@ -14,7 +18,7 @@ dev: sanity
 		--set-env-vars=MY_VERSION="$(VERSION)" \
 		--set-env-vars=MY_DEPLOYMENT_TIME="$(DEPLOYMENT_TIME)" \
 		--memory=128M \
-		--trigger-topic budget-alerts
+		--trigger-topic $(TRIGGER_TOPIC)
 
 rundev:
 	env \
@@ -36,7 +40,7 @@ production: sanity
 		--set-env-vars=MY_VERSION="$(VERSION)" \
 		--set-env-vars=MY_DEPLOYMENT_TIME="$(DEPLOYMENT_TIME)" \
 		--memory=128M \
-		--trigger-topic budget-alerts
+		--trigger-topic $(TRIGGER_TOPIC)
 
 sanity:
 	@[ -z "$(GCP_PROJECT)" ] && echo "You should export GCP_PROJECT" && exit 1 || true
