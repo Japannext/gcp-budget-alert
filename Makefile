@@ -12,7 +12,7 @@ dev: sanity
 		--region $(GCP_REGION) \
 		--entry-point budgetAlert \
 		--source . \
-		--runtime=nodejs14 \
+		--runtime=nodejs18 \
 		--set-env-vars=GOOGLE_APPLICATION_CREDENTIALS=$(GOOGLE_APPLICATION_CREDENTIALS) \
 		--set-env-vars=DATASTORE_NAMESPACE=$@ \
 		--set-env-vars=MY_VERSION="$(VERSION)" \
@@ -44,7 +44,7 @@ production: sanity
 		--region $(GCP_REGION) \
 		--entry-point budgetAlert \
 		--source . \
-		--runtime=nodejs14 \
+		--runtime=nodejs18 \
 		--set-env-vars=GOOGLE_APPLICATION_CREDENTIALS=$(GOOGLE_APPLICATION_CREDENTIALS) \
 		--set-env-vars=DATASTORE_NAMESPACE=$@ \
 		--set-env-vars=MY_VERSION="$(VERSION)" \

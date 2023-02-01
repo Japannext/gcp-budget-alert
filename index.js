@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+const pencilEmoji = "✏️"
 exports.budgetAlert = (event, _context) => {
 
     const eventData = JSON.parse(Buffer.from(event.data, 'base64').toString());
@@ -59,15 +60,18 @@ exports.budgetAlert = (event, _context) => {
 
         const post = {};
         const widgets = [];
-        post.cards = [
+        post.cardsV2 = [
             {
-                header: {
-                },
-                sections: [
-                    {
-                        widgets: widgets
-                    }
-                ]
+                cardId: "gcp-budget-notification",
+                card: {
+                    header: {
+                    },
+                    sections: [
+                        {
+                            widgets: widgets
+                        }
+                    ]
+                }
             }
         ];
 
@@ -100,11 +104,11 @@ exports.budgetAlert = (event, _context) => {
                 }
             }).then(() => {
                 if (shouldUpdate) {
-                    post.cards[0].header.title = `GCP Budget Notification for <b>${eventData.budgetDisplayName}</b>`;
+                    post.cardsV2[0].card.header.title = `GCP Budget Notification for <b>${eventData.budgetDisplayName}</b>`;
                     switch (alertType) {
                         case 'N':
                             widgets.push({
-                                textParagraph: {
+                                decoratedText: {
                                     text: ""
                                         + `<font color="#008000">A new billing cycle started on the Google Cloud Platform.</font><br>`
                                         + `I will send notices here if the budget gets out of hand. `
@@ -118,60 +122,56 @@ exports.budgetAlert = (event, _context) => {
                             post.text = "*Attention <users/all>!*";
 
                             widgets.push({
-                                keyValue: {
+                                decoratedText: {
                                     topLabel: `BUDGET USAGE (${alertType == 'F' ? "FORECASTED" : "ACTUAL"})`,
-                                    content: `${(parseFloat(eventData.budgetAmount) * threshold).toLocaleString()} ${eventData.currencyCode} (${ (threshold * 100).toFixed(0) }%)`,
-                                    iconUrl: "https://www.gstatic.com/images/icons/material/system/2x/warning_grey600_48dp.png",
+                                    text: `${(parseFloat(eventData.budgetAmount) * threshold).toLocaleString()} ${eventData.currencyCode} (${ (threshold * 100).toFixed(0) }%)`,
+                                    startIcon: { iconUrl: "https://www.gstatic.com/images/icons/material/system/2x/warning_grey600_48dp.png", },
                                 }
                             });
 
                             break;
                     }
                     widgets.push({
-                        keyValue: {
+                        decoratedText: {
                             topLabel: "Budget name",
-                            content: eventData.budgetDisplayName,
-                            icon: "DESCRIPTION",
+                            text: eventData.budgetDisplayName,
+                            startIcon: { knownIcon: "DESCRIPTION", },
                             button: {
-                                textButton: {
-                                    text: "(edit)",
+                                text: pencilEmoji,
 
-                                    onClick: {
-                                        openLink: {
-                                            url: `https://console.cloud.google.com/billing/${event.attributes.billingAccountId}/budgets/${event.attributes.budgetId}/`,
-                                        }
+                                onClick: {
+                                    openLink: {
+                                        url: `https://console.cloud.google.com/billing/${event.attributes.billingAccountId}/budgets/${event.attributes.budgetId}/`,
                                     }
                                 }
                             }
                         }
                     });
                     widgets.push({
-                        keyValue: {
+                        decoratedText: {
                             topLabel: "Budgeted amount",
-                            content: `${parseFloat(eventData.budgetAmount).toLocaleString()} ${eventData.currencyCode}`,
-                            icon: "DOLLAR",
+                            text: `${parseFloat(eventData.budgetAmount).toLocaleString()} ${eventData.currencyCode}`,
+                            startIcon: { knownIcon: "DOLLAR", },
                         }
                     });
 
                     widgets.push({
-                        keyValue: {
+                        decoratedText: {
                             topLabel: "Billing period start",
-                            content: new Date(costIntervalStart).toISOString().substr(0, 10),
-                            icon: "INVITE",
+                            text: new Date(costIntervalStart).toISOString().substr(0, 10),
+                            startIcon: { knownIcon: "INVITE", },
                         }
                     });
                     widgets.push({
-                        keyValue: {
+                        decoratedText: {
                             topLabel: "Billing account",
-                            content: event.attributes.billingAccountId,
-                            iconUrl: "https://www.gstatic.com/images/icons/material/system/2x/account_balance_wallet_grey600_48dp.png",
+                            text: event.attributes.billingAccountId,
+                            startIcon: { iconUrl: "https://www.gstatic.com/images/icons/material/system/2x/account_balance_wallet_grey600_48dp.png", },
                             button: {
-                                textButton: {
-                                    text: "(edit)",
-                                    onClick: {
-                                        openLink: {
-                                            url: `https://console.cloud.google.com/billing/${event.attributes.billingAccountId}/`,
-                                        }
+                                text: pencilEmoji,
+                                onClick: {
+                                    openLink: {
+                                        url: `https://console.cloud.google.com/billing/${event.attributes.billingAccountId}/`,
                                     }
                                 }
                             }
