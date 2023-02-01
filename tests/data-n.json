@@ -1,0 +1,8 @@
+{
+    "budgetDisplayName": "Budget Name",
+    "costAmount": 123.456,
+    "costIntervalStart": "2023-01-01T08:00:00Z",
+    "budgetAmount": 234.567,
+    "budgetAmountType": "SPECIFIED_AMOUNT",
+    "currencyCode": "USD"
+}
